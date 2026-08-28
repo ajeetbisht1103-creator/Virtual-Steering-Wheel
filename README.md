@@ -46,7 +46,7 @@ This project uses computer vision to track hand position and orientation in real
 
 **1. Clone the Repository**
 ```bash
-git clone [https://github.com/your-username/virtual-steering-wheel.git](https://github.com/your-username/virtual-steering-wheel.git)
+git clone https://github.com/your-username/virtual-steering-wheel.git
 cd virtual-steering-wheel
 2. Install Dependencies
 
@@ -81,12 +81,3 @@ macOS Users: Ensure Terminal or VS Code has camera permissions under System Sett
 Steering is Inverted
 
 Set FLIP_CAMERA = False in main.py.
-
-🎮 Game Compatibility
-Works out-of-the-box with any racing game supporting standard arrow key controls:
-
-TrackMania
-
-Browser Games (Hill Climb Racing, Chrome Dino, etc.)
-
-Arcade Emulators / TORCS
