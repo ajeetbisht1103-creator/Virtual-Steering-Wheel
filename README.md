@@ -1,3 +1,4 @@
+```markdown
 # 🎮 Virtual Steering Wheel — OpenCV + MediaPipe
 
 Control any PC or browser-based racing game using your webcam and hand gestures. No external hardware required.
@@ -46,38 +47,60 @@ This project uses computer vision to track hand position and orientation in real
 
 **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/virtual-steering-wheel.git
+git clone [https://github.com/your-username/virtual-steering-wheel.git](https://github.com/your-username/virtual-steering-wheel.git)
 cd virtual-steering-wheel
-2. Install Dependencies
 
-Bash
+```
+
+**2. Install Dependencies**
+
+```bash
 pip install -r requirements.txt
-3. Run the Application
 
-Bash
+```
+
+**3. Run the Application**
+
+```bash
 python main.py
-(Press Q or ESC while focused on the webcam window to safely exit)
 
-🔧 Configuration
-You can customize control sensitivity at the top of main.py:
+```
 
-Python
+*(Press **Q** or **ESC** while focused on the webcam window to safely exit)*
+
+---
+
+## 🔧 Configuration
+
+You can customize control sensitivity at the top of `main.py`:
+
+```python
 CAMERA_INDEX       = 0     # 0 = Default webcam, 1/2 = External camera
 DEAD_ZONE_DEG      = 12    # Degrees of central tilt to ignore (prevents wheel drift)
 FLIP_CAMERA        = True  # True mirrors camera for selfie view
 GRACE_FRAMES       = 8     # Frames to wait before releasing keys when hands disappear
 OPEN_FINGER_THRESH = 3     # Min extended fingers required to register an open hand
-❓ Troubleshooting
-AttributeError: module 'mediapipe' has no attribute 'solutions'
 
-Switch your Python environment to 3.10 or 3.11. Python 3.13+ is not supported by legacy MediaPipe.
+```
 
-[ERROR] Cannot open camera
+---
 
-Change CAMERA_INDEX = 0 to 1 or 2 in main.py.
+## ❓ Troubleshooting
 
-macOS Users: Ensure Terminal or VS Code has camera permissions under System Settings > Privacy & Security > Camera.
+* **`AttributeError: module 'mediapipe' has no attribute 'solutions'`**
+* Switch your Python environment to **3.10** or **3.11**. Python 3.13+ is not supported by legacy MediaPipe.
 
-Steering is Inverted
 
-Set FLIP_CAMERA = False in main.py.
+* **`[ERROR] Cannot open camera`**
+* Change `CAMERA_INDEX = 0` to `1` or `2` in `main.py`.
+* **macOS Users:** Ensure Terminal or VS Code has camera permissions under *System Settings > Privacy & Security > Camera*.
+
+
+* **Steering is Inverted**
+* Set `FLIP_CAMERA = False` in `main.py`.
+
+
+
+```
+
+```
