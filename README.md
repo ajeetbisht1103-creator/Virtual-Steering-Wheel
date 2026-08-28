@@ -1,75 +1,92 @@
-🎮 Virtual Steering Wheel — MediaPipe + Python
-Control any car game using your hands as a steering wheel — no hardware needed. Just your webcam.
+# 🎮 Virtual Steering Wheel — OpenCV + MediaPipe
 
-How It Works
-Hold both fists toward the camera like you're gripping a steering wheel. Tilt your hands to steer. Open your hands flat to brake.
+Control any PC or browser-based racing game using your webcam and hand gestures. No external hardware required.
 
-Gestures
-Gesture	Action	Key
-👊 Both fists, hands level	Accelerate	↑ UP
-👊 Both fists, tilt LEFT	Accelerate + steer left	↑ + ←
-👊 Both fists, tilt RIGHT	Accelerate + steer right	↑ + →
-🖐 Both hands open, level	Brake	↓ DOWN
-🖐 Both hands open, tilt LEFT	Brake + steer left	↓ + ←
-🖐 Both hands open, tilt RIGHT	Brake + steer right	↓ + →
-👊🖐 One fist, one open	Neutral (no throttle)	—
-No hands visible	All keys released	—
-Tip: You can steer left/right in any mode — braking and steering work at the same time.
+This project uses computer vision to track hand position and orientation in real time, translating physical hand movements into keyboard inputs (`↑`, `↓`, `←`, `→`).
 
-Requirements
-Python 3.9+
-Webcam
-Install Dependencies
-pip install mediapipe opencv-python pynput numpy
-Run
-python3 steering_wheel.py
-Press Q in the camera window to quit.
+---
 
-macOS Setup ⚠️
-This project was built and tested on macOS (Apple M2). On macOS you must grant camera permission to Terminal before running:
+## ⚡ Features
 
-Go to System Settings → Privacy & Security → Camera
-Enable access for Terminal (or your Python launcher)
-Run the script again
-Windows Setup
-The script works on Windows with one small change. Open steering_wheel.py and find this line:
+* **Real-time Steering:** Calculates steering angle based on the relative position of both wrists.
+* **Adaptive Control Zones:** Features dead-zone filtering and release threshold logic to prevent unwanted jitter.
+* **Gesture Acceleration & Braking:**
+  * 👊 **Fist:** Triggers Acceleration (`UP` arrow).
+  * 🖐 **Open Palm:** Triggers Braking (`DOWN` arrow).
+* **Live Visual HUD:** Displays real-time status overlay, custom steering wheel UI, angle indicators, and live FPS counter.
+* **Cross-Platform:** Built-in auto-detection for macOS and Windows webcam backends.
 
-backend = cv2.CAP_AVFOUNDATION if platform.system() == "Darwin" else cv2.CAP_ANY
-This line already auto-detects your OS — no manual change needed. On Windows it will automatically use cv2.CAP_ANY (DirectShow/MSMF).
+---
 
-Steps for Windows:
+## 🖐 Controls & Gestures
 
-Install Python from https://python.org
+| Hand Gesture | Action | Triggered Key |
+| :--- | :--- | :--- |
+| 👊 Both Fists (Level) | Accelerate | `UP` Arrow |
+| 👊 Both Fists (Tilt Left) | Accelerate + Steer Left | `UP` + `LEFT` Arrows |
+| 👊 Both Fists (Tilt Right) | Accelerate + Steer Right | `UP` + `RIGHT` Arrows |
+| 🖐 Both Hands Open (Level) | Brake | `DOWN` Arrow |
+| 🖐 Both Hands Open (Tilt Left) | Brake + Steer Left | `DOWN` + `LEFT` Arrows |
+| 🖐 Both Hands Open (Tilt Right) | Brake + Steer Right | `DOWN` + `RIGHT` Arrows |
+| 👊🖐 Mixed (One Fist, One Open) | Neutral (Throttle Off) | None |
+| ❌ Hands Out of Frame | Emergency Cut-off | All Keys Released |
 
-Install dependencies:
+> **Note:** Steering logic works continuously regardless of whether you are accelerating or braking.
 
-pip install mediapipe opencv-python pynput numpy
-Run:
+---
 
-python steering_wheel.py
-If the camera doesn't open, try changing CAMERA_INDEX at the top of steering_wheel.py:
+## 🛠️ Requirements
 
-CAMERA_INDEX = 0   # try 0, 1, or 2
-Note for Windows: You may see a Windows Security prompt asking if Python can access your camera — click Allow.
+* **Python Version:** `3.9` to `3.12` *(MediaPipe legacy solutions do not support Python 3.13+)*
+* **Hardware:** Standard Web Camera
 
-Config (top of steering_wheel.py)
-Setting	Default	Description
-CAMERA_INDEX	0	0 = built-in webcam, 1 = external USB camera
-DEAD_ZONE_DEG	12	Degrees of tilt to ignore at center (prevents jitter)
-FLIP_CAMERA	True	Mirror the feed (selfie view). Set False for some external cameras
-GRACE_FRAMES	8	Frames to wait before releasing keys when hands disappear
-OPEN_FINGER_THRESH	3	How many fingers must be extended to count as an open hand (brake)
-Troubleshooting
-Problem	Fix
-[ERROR] Cannot open camera	Check CAMERA_INDEX — try 0, 1, 2
-Steering is reversed	Toggle FLIP_CAMERA = False in config
-Keys stuck after removing hands	Hands must be fully out of frame for ~8 frames
-Brake not triggering	Spread all fingers wider, ensure 3+ fingers are fully extended
-Brake triggers too easily	Increase OPEN_FINGER_THRESH = 4 in config
-Low FPS / laggy	Lower camera resolution in the script or close other apps
-Works With Any Game That Uses Arrow Keys
-Google Chrome Dinosaur game
-Trackmania
-TORCS
-Hill Climb Racing (browser)
-Any browser/PC racing game using arrow keys
+---
+
+## ⚙️ Quick Start
+
+**1. Clone the Repository**
+```bash
+git clone [https://github.com/your-username/virtual-steering-wheel.git](https://github.com/your-username/virtual-steering-wheel.git)
+cd virtual-steering-wheel
+2. Install Dependencies
+
+Bash
+pip install -r requirements.txt
+3. Run the Application
+
+Bash
+python main.py
+(Press Q or ESC while focused on the webcam window to safely exit)
+
+🔧 Configuration
+You can customize control sensitivity at the top of main.py:
+
+Python
+CAMERA_INDEX       = 0     # 0 = Default webcam, 1/2 = External camera
+DEAD_ZONE_DEG      = 12    # Degrees of central tilt to ignore (prevents wheel drift)
+FLIP_CAMERA        = True  # True mirrors camera for selfie view
+GRACE_FRAMES       = 8     # Frames to wait before releasing keys when hands disappear
+OPEN_FINGER_THRESH = 3     # Min extended fingers required to register an open hand
+❓ Troubleshooting
+AttributeError: module 'mediapipe' has no attribute 'solutions'
+
+Switch your Python environment to 3.10 or 3.11. Python 3.13+ is not supported by legacy MediaPipe.
+
+[ERROR] Cannot open camera
+
+Change CAMERA_INDEX = 0 to 1 or 2 in main.py.
+
+macOS Users: Ensure Terminal or VS Code has camera permissions under System Settings > Privacy & Security > Camera.
+
+Steering is Inverted
+
+Set FLIP_CAMERA = False in main.py.
+
+🎮 Game Compatibility
+Works out-of-the-box with any racing game supporting standard arrow key controls:
+
+TrackMania
+
+Browser Games (Hill Climb Racing, Chrome Dino, etc.)
+
+Arcade Emulators / TORCS
